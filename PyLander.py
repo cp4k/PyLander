@@ -23,6 +23,9 @@ it uses a simple landing pad rectangle.
 # initialize - get everything ready
 import pygame, sys
 from math import *
+
+debug = '-d' in sys.argv[1:]
+
 pygame.init()
 #wider screen than LunarLander, since we have sideways motion
 screen = pygame.display.set_mode([800,600])
@@ -138,51 +141,66 @@ def calculate_velocity():
 
 # display the text with the speed, height, etc. 
 def display_stats():
-  vv_str = "vertical speed:  %.1f m/s" % y_velocity    # in m/s
-  hv_str = "horizontal speed %.1f m/s" % x_velocity    # in m/s
-  tv_str = "Total Velocity %.1f m/s" % tot_velocity    # in m/s
-  h_str = "height:   %.1f m" % y_loc                   #in meters
-  x_str = "position: %.1f m" % x_loc
+  if debug:
+    vv_str = "vertical speed:  %.1f m/s" % y_velocity    # in m/s
+    hv_str = "horizontal speed %.1f m/s" % x_velocity    # in m/s
+    tv_str = "Total Velocity %.1f m/s" % tot_velocity    # in m/s
+    h_str = "height:   %.1f m" % y_loc                   #in meters
+    x_str = "position: %.1f m" % x_loc
+    t_str = "thrust:   %i  kg" % thrust
+    a_str = "acceleration: %.1f m/s/s" % (delta_v * fps)
+    f_str = "fuel:  %i" % fuel
+  else:
+    tv_str = "Speed: %.1f m/s" % tot_velocity
+    f_str = "Fuel"
   ang_str = "Angle: %.1f" % ship.angle
-  t_str = "thrust:   %i  kg" % thrust
-  a_str = "acceleration: %.1f m/s/s" % (delta_v * fps)
-  f_str = "fuel:  %i" % fuel
 
-  vv_font = pygame.font.Font(None, 26)  #vertical speed
-  vv_surf = vv_font.render(vv_str, 1, (255, 255, 255))
-  screen.blit(vv_surf, [10, 50])
+  if debug:
+    vv_font = pygame.font.Font(None, 26)  #vertical speed
+    vv_surf = vv_font.render(vv_str, 1, (255, 255, 255))
+    screen.blit(vv_surf, [10, 50])
 
-  hv_font = pygame.font.Font(None, 26)  #horizontal speed
-  hv_surf = hv_font.render(hv_str, 1, (255, 255, 255))
-  screen.blit(hv_surf, [10, 70])
+    hv_font = pygame.font.Font(None, 26)  #horizontal speed
+    hv_surf = hv_font.render(hv_str, 1, (255, 255, 255))
+    screen.blit(hv_surf, [10, 70])
 
-  hv_font = pygame.font.Font(None, 26)  #horizontal speed
-  hv_surf = hv_font.render(hv_str, 1, (255, 255, 255))
-  screen.blit(hv_surf, [10, 90])
+    tv_font = pygame.font.Font(None, 26)  #total speed
+    tv_surf = hv_font.render(tv_str, 1, (255, 255, 255))
+    screen.blit(tv_surf, [10, 90])
 
-  h_font = pygame.font.Font(None, 26)   #y-location (height)
-  h_surf = h_font.render(h_str, 1, (255, 255, 255))
-  screen.blit(h_surf, [10, 120])
+    h_font = pygame.font.Font(None, 26)   #y-location (height)
+    h_surf = h_font.render(h_str, 1, (255, 255, 255))
+    screen.blit(h_surf, [10, 120])
 
-  x_font = pygame.font.Font(None, 26)   #x_location
-  x_surf = x_font.render(x_str, 1, (255, 255, 255))
-  screen.blit(x_surf, [10, 150])
+    x_font = pygame.font.Font(None, 26)   #x_location
+    x_surf = x_font.render(x_str, 1, (255, 255, 255))
+    screen.blit(x_surf, [10, 150])
 
-  ang_font = pygame.font.Font(None, 26)  #angle
-  ang_surf = ang_font.render(ang_str, 1, (255, 255, 255))
-  screen.blit(ang_surf, [10, 180])
+    ang_font = pygame.font.Font(None, 26)  #angle
+    ang_surf = ang_font.render(ang_str, 1, (255, 255, 255))
+    screen.blit(ang_surf, [10, 180])
 
-  t_font = pygame.font.Font(None, 26)   #thrust
-  t_surf = t_font.render(t_str, 1, (255, 255, 255))
-  screen.blit(t_surf, [10, 210])
+    t_font = pygame.font.Font(None, 26)   #thrust
+    t_surf = t_font.render(t_str, 1, (255, 255, 255))
+    screen.blit(t_surf, [10, 210])
 
-  a_font = pygame.font.Font(None, 26)   #acceleration
-  a_surf = a_font.render(a_str, 1, (255, 255, 255))
-  screen.blit(a_surf, [10, 240])
+    a_font = pygame.font.Font(None, 26)   #acceleration
+    a_surf = a_font.render(a_str, 1, (255, 255, 255))
+    screen.blit(a_surf, [10, 240])
 
-  f_font = pygame.font.Font(None, 26)   #fuel
-  f_surf = f_font.render(f_str, 1, (255, 255, 255))
-  screen.blit(f_surf, [60, 330])
+    f_font = pygame.font.Font(None, 26)   #fuel
+    f_surf = f_font.render(f_str, 1, (255, 255, 255))
+    screen.blit(f_surf, [60, 330])
+  else:
+    tv_font = pygame.font.Font(None, 50)  #total speed
+    tv_surf = tv_font.render(tv_str, 1, (255, 255, 255))
+    screen.blit(tv_surf, [10, 10])
+    ang_font = pygame.font.Font(None, 50)  #angle
+    ang_surf = ang_font.render(ang_str, 1, (255, 255, 255))
+    screen.blit(ang_surf, [790 - ang_surf.get_width(), 10])
+    f_font = pygame.font.Font(None, 26)   #fuel
+    f_surf = f_font.render(f_str, 1, (255, 255, 255))
+    screen.blit(f_surf, [92-f_surf.get_width()/2, 40])
 
 # display the ship's flames - size depends on the amount of thrust 
 def display_flames():
@@ -311,9 +329,14 @@ while True:
       calculate_velocity()
       screen.fill([0, 0, 0])
       display_stats()
-      pygame.draw.rect(screen, [0, 0, 255], [80, 350, 24, 100], 2)
-      fuelbar = 96 * fuel / 5000
-      pygame.draw.rect(screen, [0,255,0], [84,448-fuelbar,18, fuelbar], 0)
+      if debug:
+        pygame.draw.rect(screen, [0, 0, 255], [80, 350, 24, 100], 2)
+        fuelbar = 96 * fuel / 5000
+        pygame.draw.rect(screen, [0,255,0], [84,448-fuelbar,18, fuelbar], 0)
+      else:
+        pygame.draw.rect(screen, [0, 0, 255], [80, 60, 24, 530], 2)
+        fuelbar = 524 * fuel / 5000
+        pygame.draw.rect(screen, [0,255,0], [84,588-fuelbar,18, fuelbar], 0)
       drawTerrain()                    
       display_flames()                  
       screen.blit(ship.image, ship.rect)
@@ -322,13 +345,13 @@ while True:
       instruct3 = "And you must be within 10 degrees of vertical"
       inst1_font = pygame.font.Font(None, 24)
       inst1_surf = inst1_font.render(instruct1, 1, (255, 255, 255))
-      screen.blit(inst1_surf, [50, 550])
+      screen.blit(inst1_surf, [400-inst1_surf.get_width()/2, 550])
       inst2_font = pygame.font.Font(None, 24)
       inst2_surf = inst1_font.render(instruct2, 1, (255, 255, 255))
-      screen.blit(inst2_surf, [20, 575])
+      screen.blit(inst2_surf, [400-inst2_surf.get_width()/2, 575])
       inst3_font = pygame.font.Font(None, 24)
       inst3_surf = inst3_font.render(instruct3, 1, (255, 255, 255))
-      screen.blit(inst3_surf, [50, 600])
+      screen.blit(inst3_surf, [400-inst3_surf.get_width()/2, 600])
       pygame.display.flip()
 
   else:  #game over - print final score
