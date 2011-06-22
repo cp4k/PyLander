@@ -1,10 +1,3 @@
-# PyLander.py
-# Copyright Warren Sande, 2011
-
-# Based on LunarLander, Copyright Warren Sande, 2009
-# Released under MIT license   http://www.opensource.org/licenses/mit-license.php
-
-
 # LunarLander 2D
 # simulation game of landing a spacecraft
 """
