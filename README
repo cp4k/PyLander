@@ -1,7 +1,22 @@
-The original LunarLander in "Hello World! Computer Programmingfor Kids and Other Beginners"was a very simple 1-D (y-axis, vertical motion only)version of Lunar Lander, just to demonstrate a simplegravity simulaiton using Pygame.PyLander adds the x-axis (sideways motion).You can now rotate the lander usingthe right/left arrow keys, more likethe original arcade version.It also changes the thrust control from amouse-based (dragging the slider) to key-based(press/hold the spacebar).Instead of the moonsurface image,it uses a simple landing pad rectangle.
+The original LunarLander in "Hello World! Computer Programming
+for Kids and Other Beginners"
+was a very simple 1-D (y-axis, vertical motion only)
+version of Lunar Lander, just to demonstrate a simple
+gravity simulaiton using Pygame.
+
+PyLander adds the x-axis (sideways motion).
+You can now rotate the lander using
+the right/left arrow keys, more like
+the original arcade version.
+It also changes the thrust control from a
+mouse-based (dragging the slider) to key-based
+(press/hold the spacebar).
+
+Instead of the moonsurface image,
+it uses a simple landing pad rectangle.
 
 This software is based on the LunarLander sample program
 from the book Hello World! Computer Programming for Kids
-and Other Beginners.  That software is © Warren Sande, 2009.  It
+and Other Beginners.  That software is (c) Warren Sande, 2009.  It
 is released under the MIT license, which can be found at
 http://www.opensource.org/licenses/mit-license.php
