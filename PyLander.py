@@ -1,25 +1,3 @@
-# LunarLander 2D
-# simulation game of landing a spacecraft
-"""
-The original LunarLander in "Hello World! Computer Programming
-for Kids and Other Beginners"
-was a very simple 1-D (y-axis, vertical motion only)
-version of Lunar Lander, just to demonstrate a simple
-gravity simulaiton using Pygame.
-
-PyLander adds the x-axis (sideways motion).
-You can now rotate the lander using
-the right/left arrow keys, more like
-the original arcade version.
-It also changes the thrust control from a
-mouse-based (dragging the slider) to key-based
-(press/hold the spacebar).
-
-Instead of the moonsurface image,
-it uses a simple landing pad rectangle.
-
-"""
-
 # initialize - get everything ready
 import pygame, sys
 from math import *
