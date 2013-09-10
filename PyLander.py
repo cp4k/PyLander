@@ -2,7 +2,7 @@
 import pygame, sys
 from math import *
 
-debug = '-d' in sys.argv[1:]
+debug = '-d' in sys.argv[0]
 
 pygame.init()
 #wider screen than LunarLander, since we have sideways motion
@@ -26,7 +26,8 @@ y_speed = -800.0
 x_velocity = x_speed/(10.0*fps)  #m/s
 y_velocity = y_speed/(10.0*fps)
 
-gravity = 1.5
+basegravity = 1.5
+gravity = basegravity
 thrust = 0
 delta_v = 0
 scale = 10   #scale factor from pixels to meters
@@ -77,8 +78,11 @@ class ShipClass(pygame.sprite.Sprite):
 # calcualte position, motion, acceleration, fuel
 def calculate_velocity():
   global ship, thrust, fuel, x_velocity, y_velocity, x_loc, y_loc
-  global tot_velocity, scale, x_pos, y_pos, x_speed, y_speed
-
+  global tot_velocity, scale, x_pos, y_pos, x_speed, y_speed ,gravity
+  if y_pos != 0:
+    gravity = (basegravity/(float(y_pos)/y_pos**2))/85
+  else:
+    gravity = basegravity
   delta_t = 1/fps
    
   #Calculate thrust based on spacebar being held down
@@ -128,12 +132,17 @@ def display_stats():
     t_str = "thrust:   %i  kg" % thrust
     a_str = "acceleration: %.1f m/s/s" % (delta_v * fps)
     f_str = "fuel:  %i" % fuel
+    g_str = "gravity %i" % gravity
   else:
     tv_str = "Speed: %.1f m/s" % tot_velocity
     f_str = "Fuel"
   ang_str = "Angle: %.1f" % ship.angle
 
   if debug:
+    g_font = pygame.font.Font(None, 26)  #gravity
+    g_surf = g_font.render(g_str, 1, (255, 255, 255))
+    screen.blit(g_surf, [10, 30])
+    
     vv_font = pygame.font.Font(None, 26)  #vertical speed
     vv_surf = vv_font.render(vv_str, 1, (255, 255, 255))
     screen.blit(vv_surf, [10, 50])
@@ -155,7 +164,7 @@ def display_stats():
     screen.blit(x_surf, [10, 150])
 
     ang_font = pygame.font.Font(None, 26)  #angle
-    ang_surf = ang_font.render(ang_str, 1, (255, 255, 255))
+    ang_surf = ang_font.render(ang_str, 1, (255, 255, 255)) 
     screen.blit(ang_surf, [10, 180])
 
     t_font = pygame.font.Font(None, 26)   #thrust
@@ -331,7 +340,7 @@ while True:
       inst3_surf = inst3_font.render(instruct3, 1, (255, 255, 255))
       screen.blit(inst3_surf, [400-inst3_surf.get_width()/2, 600])
       pygame.display.flip()
-
+      display_stats()
   else:  #game over - print final score
       display_final()
              
@@ -352,3 +361,4 @@ while True:
               right_down = False
           if event.key == pygame.K_LEFT:
               left_down = False
+
